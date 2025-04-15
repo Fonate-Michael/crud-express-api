@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing the API CALL</title>
+</head>
+<body>
+
+    <h1>Testing the API CALL</h1>
+    <p>Click the button to make an API call.</p>
+    <button id="apiCallButton">Make API Call</button>
+    <div id="response"></div>
+
+    <script>
+        const button = document.getElementById('apiCallButton');
+        const responseDiv = document.getElementById('response');
+        const callApi = async()=>{
+            const url = "https://crud-express-api.vercel.app/api/funfact";
+            const response =  await fetch(url);
+            const data = await response.json();
+            console.log(data);
+
+        
+
+        }
+
+        button.addEventListener('click', callApi);
+
+       
+        
+    </script>
+    
+</body>
+</html>
