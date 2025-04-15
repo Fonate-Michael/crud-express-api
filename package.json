@@ -8,10 +8,14 @@
   "license": "ISC",
   "author": "Fonate Michael",
   "type": "module",
-  "main": "index.js",
+  "main": "./api/index.js",
   "scripts": {
-    "dev": "nodemon index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "dev": "nodemon index",
+  "start": "node api/index.js",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
+  "engines": {
+    "node": ">=18.x"
   },
   "dependencies": {
     "cors": "^2.8.5",
