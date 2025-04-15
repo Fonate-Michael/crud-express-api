@@ -3,33 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Testing the API CALL</title>
+    <title>Fun Facts Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 2.2rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        p.subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #apiCallButton {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+            margin-bottom: 30px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #apiCallButton:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        #apiCallButton:active {
+            transform: translateY(0);
+        }
+
+        .loading {
+            text-align: center;
+            color: #7f8c8d;
+            margin: 40px 0;
+        }
+
+        .loading:after {
+            content: '...';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .fact-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .fact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #3498db, #2ecc71);
+        }
+
+        .fact-text {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            line-height: 1.7;
+            padding-left: 10px;
+        }
+
+        .fact-author {
+            text-align: right;
+            color: #7f8c8d;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding-top: 10px;
+            border-top: 1px dashed #eee;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            padding: 20px;
+            background: #fadbd8;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        @media (max-width: 768px) {
+            .facts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-
-    <h1>Testing the API CALL</h1>
-    <p>Click the button to make an API call.</p>
-    <button id="apiCallButton">Make API Call</button>
-    <div id="response"></div>
+    <div class="container">
+        <h1>Fun Facts Gallery</h1>
+        <p class="subtitle">Click the button below to fetch all fun facts from our API</p>
+        <button id="apiCallButton">Load All Fun Facts</button>
+        
+        <div id="response">
+            <div class="loading" id="loading" style="display: none;">Loading facts</div>
+            <div class="facts-grid" id="factsGrid"></div>
+        </div>
+    </div>
 
     <script>
         const button = document.getElementById('apiCallButton');
-        const responseDiv = document.getElementById('response');
-        const callApi = async()=>{
-            const url = "https://crud-express-api.vercel.app/api/funfact";
-            const response =  await fetch(url);
-            const data = await response.json();
-            console.log(data);
+        const factsGrid = document.getElementById('factsGrid');
+        const loadingElement = document.getElementById('loading');
 
-        
-
+        const callApi = async () => {
+            
+            factsGrid.innerHTML = '';
+            loadingElement.style.display = 'block';
+            
+            try {
+                const url = "https://crud-express-api.vercel.app/api/funfact";
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                
+                loadingElement.style.display = 'none';
+                
+                if (data.length > 0) {
+                  
+                    data.forEach(fact => {
+                        const card = document.createElement('div');
+                        card.className = 'fact-card';
+                        card.innerHTML = `
+                            <div class="fact-text">${fact.fact}</div>
+                            <div class="fact-author">— ${fact.author}</div>
+                        `;
+                        factsGrid.appendChild(card);
+                    });
+                } else {
+                    factsGrid.innerHTML = '<div class="error-message">No facts available at the moment.</div>';
+                }
+                
+            } catch (error) {
+                loadingElement.style.display = 'none';
+                factsGrid.innerHTML = `
+                    <div class="error-message">
+                        Failed to load fun facts. Please try again later.<br>
+                        <small>Error: ${error.message}</small>
+                    </div>
+                `;
+                console.error("API call failed:", error);
+            }
         }
 
         button.addEventListener('click', callApi);
 
-       
         
+        // document.addEventListener('DOMContentLoaded', callApi);
     </script>
-    
 </body>
 </html>
