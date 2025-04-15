@@ -1,0 +1,20 @@
+{
+  "name": "test-api",
+  "version": "1.0.0",
+  "description": "this is a test api i am  creating to see if i can deploy on vercel",
+  "keywords": [
+    "api"
+  ],
+  "license": "ISC",
+  "author": "Fonate Michael",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}
