@@ -46,6 +46,11 @@ const funFacts = [
 
 
 const PORT = "8000";
+
+app.get("/", (req, res)=>{
+    res.send("Use the end point /api/funfact to display the list of funfact");
+})
+
 app.get("/api/funfact", (req, res)=>{
     res.json(funFacts);
 })
