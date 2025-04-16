@@ -1,6 +1,12 @@
-import express from "express";
+import express, { urlencoded } from "express";
 import cors from "cors";
+import {join} from 'path'
+import {fileURLToPath} from 'url'
+import {dirname} from 'path'
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename)
 
 app.use(cors());
 
@@ -48,32 +54,7 @@ const funFacts = [
 const PORT = "8000";
 
 app.get("/", (req, res)=>{
-    res.send(`
-        <html>
-            <head>
-                <style>
-                    body {
-                        font-family: Arial, sans-serif;
-                        padding: 20px;
-                        line-height: 1.6;
-                    }
-                    .endpoint {
-                        color: #2980b9;
-                        font-family: monospace;
-                        padding: 5px;
-                        background: #f5f5f5;
-                        border-radius: 4px;
-                    }
-                </style>
-            </head>
-            <body>
-                <h2>Welcome to Fun Facts API</h2>
-                <p>Use the endpoint:</p>
-                <p class="endpoint">/api/funfact</p>
-                <p>to display the list of fun facts</p>
-            </body>
-        </html>
-    `);
+   res.sendFile(join(__dirname,'endpoints.html'))
 });
 
 app.get("/api/funfact", (req, res)=>{

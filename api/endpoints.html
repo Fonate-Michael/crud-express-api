@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Facts API Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #e4e4e4;
+            background-color: #1a1a1a;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #2c2c2c;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid #3a3a3a;
+        }
+
+        .sidebar h1 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 10px 0;
+        }
+
+        .nav-links a {
+            color: #e4e4e4;
+            text-decoration: none;
+            display: block;
+            padding: 8px 10px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+            width: calc(100% - 250px);
+            max-width: 1200px;
+        }
+
+        .api-section {
+            background: #2c2c2c;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border: 1px solid #3a3a3a;
+        }
+
+        .endpoint {
+            background: #232323;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .method {
+            background: #3498db;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .url {
+            color: #3498db;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            margin-left: 10px;
+        }
+
+        pre {
+            background: #1c1c1c;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            border: 1px solid #333;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            color: #e4e4e4;
+        }
+
+        .response-example {
+            background: #1c1c1c;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border: 1px solid #333;
+        }
+
+        h2 {
+            color: #3498db;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        h3, h4 {
+            color: #3498db;
+            margin: 15px 0 10px 0;
+        }
+
+        ul {
+            list-style-position: inside;
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #3498db;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            .main-content {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <h1>Fun Facts API</h1>
+        <ul class="nav-links">
+            <li><a href="#base-url">Base URL</a></li>
+            <li><a href="#endpoints">Endpoints</a></li>
+            <li><a href="#response-codes">Response Codes</a></li>
+            <li><a href="#rate-limiting">Rate Limiting</a></li>
+            <li><a href="#cors">CORS</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div id="base-url" class="api-section">
+            <h2>Base URL</h2>
+            <p>All endpoints are relative to: <code>http://localhost:8000</code></p>
+        </div>
+
+        <div id="endpoints" class="api-section">
+            <h2>Endpoints</h2>
+            <div class="endpoint">
+                <h3>Get All Fun Facts</h3>
+                <p><span class="method">GET</span><span class="url">/api/funfact</span></p>
+                <p>Returns an array of all available fun facts.</p>
+
+                <h4>Response Format</h4>
+                <pre><code>[{
+    "id": 1,
+    "fact": "string",
+    "author": "string"
+}]</code></pre>
+
+                <h4>Example Response</h4>
+                <div class="response-example">
+                    <pre><code>[{
+    "id": 1,
+    "fact": "Honey never spoils. Archaeologists have found 3000-year-old honey and it was still good.",
+    "author": "Science Daily"
+},
+{
+    "id": 2,
+    "fact": "Octopuses have three hearts and blue blood.",
+    "author": "National Geographic"
+}]</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <div id="response-codes" class="api-section">
+            <h2>Response Codes</h2>
+            <ul>
+                <li><strong>200</strong> - Success</li>
+                <li><strong>404</strong> - Not Found</li>
+                <li><strong>500</strong> - Server Error</li>
+            </ul>
+        </div>
+
+        <div id="rate-limiting" class="api-section">
+            <h2>Rate Limiting</h2>
+            <p>Currently, there are no rate limits implemented on the API.</p>
+        </div>
+
+        <div id="cors" class="api-section">
+            <h2>CORS</h2>
+            <p>This API supports Cross-Origin Resource Sharing (CORS) and can be accessed from any origin.</p>
+        </div>
+    </main>
+</body>
+</html>
