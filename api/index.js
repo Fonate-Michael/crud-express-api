@@ -48,8 +48,33 @@ const funFacts = [
 const PORT = "8000";
 
 app.get("/", (req, res)=>{
-    res.send("Use the end point /api/funfact to display the list of funfact");
-})
+    res.send(`
+        <html>
+            <head>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        padding: 20px;
+                        line-height: 1.6;
+                    }
+                    .endpoint {
+                        color: #2980b9;
+                        font-family: monospace;
+                        padding: 5px;
+                        background: #f5f5f5;
+                        border-radius: 4px;
+                    }
+                </style>
+            </head>
+            <body>
+                <h2>Welcome to Fun Facts API</h2>
+                <p>Use the endpoint:</p>
+                <p class="endpoint">/api/funfact</p>
+                <p>to display the list of fun facts</p>
+            </body>
+        </html>
+    `);
+});
 
 app.get("/api/funfact", (req, res)=>{
     res.json(funFacts);
